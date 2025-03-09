@@ -1,5 +1,3 @@
-
-
 import React from 'react'
 import Slider from 'react-slick';
 import ava01 from '../../assets/images/ava-1.jpg'
@@ -41,7 +39,7 @@ const Testimonials = () => {
   <Slider {...settings}>
     <div className='testimonial py-4 px-3'>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            "Chuyến du lịch tuyệt vời với dịch vụ chất lượng cao. Hướng dẫn viên nhiệt tình, chương trình tour được sắp xếp hợp lý. Tôi đặc biệt ấn tượng với cách họ chăm sóc từng chi tiết nhỏ nhất cho khách hàng."
         </p>
 
         <div className='d-flex align-items-center gap-4 mt-3'>
@@ -54,7 +52,7 @@ const Testimonials = () => {
     </div>
     <div className='testimonial py-4 px-3'>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            "Đây là lần đầu tiên tôi đặt tour qua GoGo và thực sự rất hài lòng. Giá cả hợp lý, dịch vụ tốt, nhân viên thân thiện. Chắc chắn sẽ tiếp tục sử dụng dịch vụ của GoGo trong những chuyến đi tới."
         </p>
 
         <div className='d-flex align-items-center gap-4 mt-3'>
@@ -67,7 +65,7 @@ const Testimonials = () => {
     </div>
     <div className='testimonial py-4 px-3'>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            "Tour được tổ chức rất chuyên nghiệp, từ việc đón khách đến lịch trình tham quan. Điểm đặc biệt là các địa điểm du lịch được chọn lọc rất kỹ, mang đến trải nghiệm văn hóa độc đáo."
         </p>
 
         <div className='d-flex align-items-center gap-4 mt-3'>
@@ -80,7 +78,7 @@ const Testimonials = () => {
     </div>
     <div className='testimonial py-4 px-3'>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            "Chuyến du lịch tuyệt vời với dịch vụ chất lượng cao. Hướng dẫn viên nhiệt tình, chương trình tour được sắp xếp hợp lý. Tôi đặc biệt ấn tượng với cách họ chăm sóc từng chi tiết nhỏ nhất cho khách hàng."
         </p>
 
         <div className='d-flex align-items-center gap-4 mt-3'>

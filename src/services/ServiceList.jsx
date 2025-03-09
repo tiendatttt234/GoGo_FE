@@ -11,18 +11,18 @@ import customizationImg from './../assets/images/customization.png';
 const servicesData = [
     {
         imgUrl: weatherImg,
-        title: 'Calculate Weather',
-        description: 'A weather app that allows you to search for the weather of any city, country or location.',
+        title: 'Điểm đến',
+        description: 'Những điểm đến tuyệt vời nhất trên thế giới mà bạn không thể bỏ lỡ.',
     },
     {
         imgUrl: guideImg,
-        title: 'Best Tour Guide',
-        description: 'A weather app that allows you to search for the weather of any city, country or location.',
+        title: 'Reviews',
+        description: 'Những đánh giá chất lượng từ những khách hàng hài lòng với dịch vụ của chúng tôi.',
     },
     {
         imgUrl: customizationImg,
-        title: 'Customization',
-        description: 'A website that allows you to customize your experience with the best restaurants in your area.',
+        title: 'Blogs',
+        description: 'Những bài viết hữu ích về du lịch, những trải nghiệm đáng nhớ và những lời khuyên hữu ích.',
     },
 ]
 

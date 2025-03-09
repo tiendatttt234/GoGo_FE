@@ -20,7 +20,7 @@ const nav__links=[
   },
   {
     path:'/leaderboard',
-    display:'Leaderboard'
+    display:'Xếp hạng'
   },
 ]
 
@@ -77,7 +77,7 @@ const Header = () => {
               }
               {user && user.role === 'admin' && (
                 <li className="nav__item">
-                  <NavLink to="/admin" className={navClass => navClass.isActive ? "active__link" : ""}>Admin Dashboard</NavLink>
+                  <NavLink to="/admin" className={navClass => navClass.isActive ? "active__link" : ""}>Admin </NavLink>
                 </li>
               )}
             </ul>

@@ -1,5 +1,3 @@
-
-
 import React from 'react'
 import './newsletter.css'
 import {Container, Row, Col} from 'reactstrap'
@@ -13,15 +11,16 @@ const Newsletter = () => {
             <Row>
                 <Col lg='6'>
                     <div className="newsletter__content">
-                        <h2>Subscribe to get useful traveiling information</h2>
+                    <h2>Đăng ký nhận thông tin du lịch hữu ích</h2>
 
                         <div className="newsletter__input">
                             <input type="email" placeholder="Enter your email" />
                             <button className='btn newsletter__btn'>Subscribe</button>
                         </div>
 
+                        
                         <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae in, asperiores esse maxime officia omnis enim. Obcaecati exercitationem perspiciatis veritatis voluptates eos vitae reiciendis, architecto totam qui placeat ipsa. Vel.
+                            Đăng ký nhận thông tin để không bỏ lỡ những ưu đãi hấp dẫn và cập nhật những điểm đến mới nhất. Chúng tôi cam kết mang đến những trải nghiệm du lịch tuyệt vời nhất cho bạn.
                         </p>
                     </div>
                 </Col>

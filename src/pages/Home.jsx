@@ -27,15 +27,15 @@ const Home = () => {
           <Col lg='6'>
             <div className='hero__content'>
               <div className='hero__subtitle d-flex align-items-center'>
-              <Subtitle subtitle={'Know Before You Go'}/>
+              <Subtitle subtitle={'Thông tin cần biết'}/>
               <img src={worldImg} alt=''/>
               </div>
               <h1>
-                Traveling opens the door to creating {' '}
-                <span className='highlight'>memories</span>
+                Du lịch mở ra cánh cửa tạo nên {' '}
+                <span className='highlight'>kí ức</span>
               </h1>
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet, risus a iaculis feugiat, quam turpis feugiat nisl, vel interdum arcu erat eu ligula. Nullam et lectus varius, fringilla arcu aliquet, fringilla nisl. Nunc molestie, dui at sodales mattis, augue nisi blandit tellus, id sodales velit felis vel elit. Nam tristique porttitor ipsum, vitae pellentesque justo faucibus sit amet. Mauris nec nunc leo. Donec sed leo ac lacus eleifend fringilla blandit eu ipsum. 
+                Hãy cùng chúng tôi khám phá những điểm đến mới lạ, trải nghiệm những cung đường đẹp nhất và tận hưởng những khoảnh khắc đáng nhớ trong cuộc đời. 
               </p>
             </div>
           </Col>
@@ -65,8 +65,8 @@ const Home = () => {
       <Container>
         <Row>
           <Col lg='3'>
-            <h5 className='services__subtitle'>What we serve</h5>
-            <h2 className='services__title'>We offer our best services</h2>
+            <h5 className='services__subtitle'>Dịch vụ của chúng tôi</h5>
+            <h2 className='services__title'>Chúng tôi cung cấp dịch vụ tốt nhất</h2>
           </Col>
           <ServiceList/>
         </Row>
@@ -79,7 +79,7 @@ const Home = () => {
         <Row>
           <Col lg='12' className='mb-5'>
             <Subtitle subtitle={"Explore"}/>
-            <h2 className='featured__tour-title'>Featured tours</h2>
+            <h2 className='featured__tour-title'>Tour nổi bật</h2>
           </Col>
           <FeaturedTourList />
         </Row>
@@ -94,27 +94,27 @@ const Home = () => {
           <Col lg='6'>
             <div className="experience__content">
               <Subtitle subtitle={'Experience'} />
-              <h2>With all our experience <br /> we will serve you</h2>
+              <h2>Với tất cả reviews <br /> chúng tôi cho thấy</h2>
+              
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                <br />
-                Quas aliquam, hic tempora inventore suscipit unde.
+                Với những đánh giá chất lượng, chúng tôi tự tin đem đến những dịch vụ chất lượng cao và trải nghiệm đáng nhớ cho khách hàng.
               </p>
             </div>
 
             <div className="counter__wrapper d-flex align-items-center gap-5">
               <div className="counter__box">
-                <span>12k+</span>
-                <h6>Successfull Trip</h6>
+                <span>4</span>
+                <h6> Chuyến đi</h6>
               </div>
               <div className="counter__box">
-                <span>2k+</span>
-                <h6>Regular clients</h6>
+                <span>27</span>
+                <h6>Khách hàng</h6>
               </div>
               <div className="counter__box">
-                <span>15</span>
-                <h6>Years experience</h6>
+                <span>6</span>
+                <h6>Bài blogs</h6>
               </div>
+              
             </div>
           </Col>
           <Col lg='6'>
@@ -133,7 +133,7 @@ const Home = () => {
         <Row>
           <Col lg='12'>
             <Subtitle subtitle={'Gallery'}/>
-            <h2 className='gallery__title'>Visit our customers tour gallery</h2>
+            <h2 className='gallery__title'>Hãy khám phá cùng chúng tôi</h2>
           </Col>
           <Col lg='12'>
             <MasonryImagesGallery/>
@@ -149,7 +149,7 @@ const Home = () => {
           <Row>
             <Col lg='12'>
               <Subtitle subtitle={'Fans Love'}/>
-              <h2 className='testimonial__title'>What our fans say about us</h2>
+              <h2 className='testimonial__title'>Các đồng Go nói gì về chúng tôi</h2>
             </Col>
             <Col lg='12'>
               <Testimonials/>

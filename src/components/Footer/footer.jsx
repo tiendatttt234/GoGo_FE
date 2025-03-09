@@ -8,33 +8,33 @@ import logo from "../../assets/images/logo.png"
 
 const quick__links = [
   {
-    path :'/home',
-    display : 'Home'
+    path: '/home',
+    display: 'Trang chủ'
   },
   {
-    path : '/about',
-    display : 'About'
+    path: '/about',
+    display: 'Giới thiệu'
   },
   {
-    path : '/tours',
-    display : 'Tours'
+    path: '/tours',
+    display: 'Tour'
   },
-];
+]
 
 const quick__links2 = [
   {
-    path :'/gallery',
-    display : 'Gallery'
+    path: '/gallery',
+    display: 'Thư viện ảnh'
   },
   {
-    path : '/login',
-    display : 'Login'
+    path: '/login',
+    display: 'Đăng nhập'  
   },
   {
-    path : '/register',
-    display : 'Register'
-  },
-];
+    path: '/register',
+    display: 'Đăng kí'
+  }
+]
 
 const footer = () => {
 
@@ -46,8 +46,10 @@ const footer = () => {
           <Col lg='3'>
             <div className="logo">
               <img src={logo} alt="" />
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus culpa nihil animi repellat, eaque commodi nisi blanditiis, pariatur nam minima consectetur sit hic harum quam maxime iusto a incidunt similique.</p>
-
+                
+                <p>
+                  GoGo tự hào là đơn vị tiên phong trong lĩnh vực du lịch trực tuyến tại Việt Nam. Chúng tôi cam kết mang đến những trải nghiệm du lịch độc đáo, an toàn và đáng nhớ cho khách hàng.
+                </p>
                 <div className="social__links d-flex align-items-center gap-4">
                   <span>
                     <Link to='#'>
@@ -108,7 +110,7 @@ const footer = () => {
                   </span>
                   Address :
                 </h6>
-                <p className='mb-0'>Sylhet, Bangladesh</p>
+                <p className='mb-0'>Hà Nội, Việt Nam</p>
                 </ListGroupItem>
 
                 <ListGroupItem className='ps-0 border-0 d-flex align-items-center gap-3'>
@@ -118,7 +120,7 @@ const footer = () => {
                   </span>
                   Email :
                 </h6>
-                <p className='mb-0'>adresse-email@gmail.com</p>
+                <p className='mb-0'>gogoreviews@gmail.com</p>
                 </ListGroupItem>
                 
                 <ListGroupItem className='ps-0 border-0 d-flex align-items-center gap-3'>
@@ -128,13 +130,13 @@ const footer = () => {
                   </span>
                   Phone :
                 </h6>
-                <p className='mb-0'>+0123456789</p>
+                <p className='mb-0'>0904231971</p>
                 </ListGroupItem>
             </ListGroup>
           </Col>
 
           <Col lg='12' className='text-center pt-5'>
-            <p className='copyright'>Copyright {year}, designed and developed by LastName FirstName. All rights reserved. </p>
+            <p className='copyright'>Copyright {year}, designed and developed by GoGo. All rights reserved. </p>
           </Col>
 
         </Row>
