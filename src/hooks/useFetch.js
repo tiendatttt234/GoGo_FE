@@ -10,26 +10,25 @@ const useFetch = (url) => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            console.log(`Fetching data from: ${url}`); // Log the URL being fetched
-            const headers = {
-                'Content-Type': 'application/json'
-            };
-            
-            if (token) {
-                headers['Authorization'] = `Bearer ${token}`;
-            }
-
             const res = await fetch(url, {
-                headers,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token && { 'Authorization': `Bearer ${token}` })
+                },
                 credentials: 'include'
             });
+
             if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+                throw new Error(`HTTP error! status: ${res.status}`);
             }
+
             const result = await res.json();
-            console.log('Fetched data:', result); // Log the fetched data
-            setData(result.data);
+            
+            if (!result.success) {
+                throw new Error(result.message);
+            }
+
+            setData(result.data); // Set the data directly from result.data
             setError(null);
         } catch (err) {
             console.error('Error fetching data:', err);
@@ -38,7 +37,7 @@ const useFetch = (url) => {
         } finally {
             setLoading(false);
         }
-    }, [url]);
+    }, [url, token]);
 
     useEffect(() => {
         fetchData();

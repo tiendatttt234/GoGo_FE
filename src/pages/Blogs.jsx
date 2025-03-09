@@ -10,9 +10,11 @@ import Newsletter from '../shared/Newsletter';
 
 const Blogs = () => {
     const [page, setPage] = useState(0);
-    const { data: blogs, loading, error } = useFetch(`${BASE_URL}/blogs?page=${page}`);
+    const { data: blogs, loading, error } = useFetch(`${BASE_URL}/blogs`); // Remove page query initially
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    console.log('Blogs data:', blogs); // Debug log
 
     return (
         <>
@@ -36,22 +38,15 @@ const Blogs = () => {
                         {loading && <h4 className='text-center pt-5'>Loading...</h4>}
                         {error && <h4 className='text-center pt-5'>{error}</h4>}
                         
-                        {!loading && !error && blogs?.data?.map(blog => (
-                            <Col lg='4' md='6' sm='6' className='mb-4' key={blog._id}>
-                                <BlogCard blog={blog} />
-                            </Col>
-                        ))}
-                        
-                        {blogs?.total > (page + 1) * 8 && (
+                        {!loading && !error && blogs && blogs.length > 0 ? (
+                            blogs.map(blog => (
+                                <Col lg='4' md='6' sm='6' className='mb-4' key={blog._id}>
+                                    <BlogCard blog={blog} />
+                                </Col>
+                            ))
+                        ) : (
                             <Col lg='12'>
-                                <div className="text-center mt-4">
-                                    <Button 
-                                        color="primary"
-                                        onClick={() => setPage(prev => prev + 1)}
-                                    >
-                                        Load More
-                                    </Button>
-                                </div>
+                                <h4 className='text-center'>No blogs found</h4>
                             </Col>
                         )}
                     </Row>

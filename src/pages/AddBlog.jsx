@@ -7,9 +7,12 @@ const AddBlog = () => {
     const navigate = useNavigate()
     const [blogData, setBlogData] = useState({
         title: '',
+        description: '', // Add this
         content: '',
         photo: '',
-        featured: false
+        category: '', // Add this
+        featured: false,
+        tags: [] // Add this (optional)
     })
 
     const handleChange = e => {
@@ -24,7 +27,7 @@ const AddBlog = () => {
         try {
             const token = localStorage.getItem('token')
             if (!token) {
-                throw new Error('You must be logged in to create a blog')
+                throw new Error('You must be logged in as admin to create a blog')
             }
 
             const res = await fetch(`${BASE_URL}/blogs`, {
@@ -33,14 +36,16 @@ const AddBlog = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
+                credentials: 'include',
                 body: JSON.stringify(blogData)
             })
 
             const result = await res.json()
             if (!res.ok) {
-                throw new Error(result.message)
+                throw new Error(result.message || 'Failed to create blog')
             }
 
+            alert('Blog created successfully!')
             navigate('/blogs')
         } catch (err) {
             alert(err.message)
@@ -65,6 +70,15 @@ const AddBlog = () => {
                                     />
                                 </FormGroup>
                                 <FormGroup>
+                                    <Label for="description">Description</Label>
+                                    <Input
+                                        type="textarea"
+                                        id="description"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </FormGroup>
+                                <FormGroup>
                                     <Label for="content">Content</Label>
                                     <Input
                                         type="textarea"
@@ -79,6 +93,15 @@ const AddBlog = () => {
                                     <Input
                                         type="text"
                                         id="photo"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="category">Category</Label>
+                                    <Input
+                                        type="text"
+                                        id="category"
                                         onChange={handleChange}
                                         required
                                     />
