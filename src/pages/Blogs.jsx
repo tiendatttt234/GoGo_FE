@@ -18,7 +18,7 @@ const Blogs = () => {
 
     return (
         <>
-            <CommonSection title="Our Blogs" />
+            <CommonSection title="Blogs" />
             <section>
                 <Container>
                     {user?.role === 'admin' && (
