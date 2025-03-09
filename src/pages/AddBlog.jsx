@@ -30,14 +30,21 @@ const AddBlog = () => {
                 throw new Error('You must be logged in as admin to create a blog')
             }
 
+            // Add missing required fields validation
+            const requiredFields = ['title', 'description', 'content', 'photo', 'category']
+            for (const field of requiredFields) {
+                if (!blogData[field]) {
+                    throw new Error(`${field} is required`)
+                }
+            }
+
             const res = await fetch(`${BASE_URL}/blogs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                credentials: 'include',
-                body: JSON.stringify(blogData)
+                body: JSON.stringify(blogData)  // Remove credentials: 'include'
             })
 
             const result = await res.json()
