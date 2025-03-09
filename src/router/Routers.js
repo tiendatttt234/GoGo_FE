@@ -9,7 +9,8 @@ import SearchResultList from '../pages/SearchResultList'
 import ThankYou from '../pages/ThankYou'
 import AdminDashboard from '../pages/AdminDashboard'
 import Leaderboard from '../pages/Leaderboard'
-
+import Blogs from '../pages/Blogs'
+import BlogDetails from '../pages/BlogDetails'
 const Routers = () => {
    return (
       <Routes>
@@ -23,6 +24,8 @@ const Routers = () => {
          <Route path='/tours/search' element={<SearchResultList/>} />
          <Route path='/admin' element={<AdminDashboard/>} />
          <Route path='/leaderboard' element={<Leaderboard/>} />
+         <Route path='/blogs' element={<Blogs/>} />
+<Route path='/blogs/:id' element={<BlogDetails/>} />
       </Routes>
    )
 }

@@ -15,6 +15,10 @@ const nav__links=[
     display:'Tours'
   },
   {
+    path:'/blogs',
+    display:'Blogs'
+  },
+  {
     path:'/leaderboard',
     display:'Leaderboard'
   },
