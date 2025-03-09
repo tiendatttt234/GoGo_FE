@@ -19,17 +19,16 @@ const useFetch = (url) => {
             });
 
             if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
+                throw new Error(`Failed to fetch data`);
             }
 
             const result = await res.json();
             
-            if (!result.success) {
-                throw new Error(result.message);
-            }
-
-            setData(result.data); // Set the data directly from result.data
+            // Check if result has data property directly
+            const responseData = result.data || result;
+            setData(responseData);
             setError(null);
+
         } catch (err) {
             console.error('Error fetching data:', err);
             setError(err.message);
