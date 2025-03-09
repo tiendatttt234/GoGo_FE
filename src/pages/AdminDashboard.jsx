@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Container, Row, Col, Card, CardBody, Button } from 'reactstrap'
 import { BASE_URL } from '../utils/config'
+import { AuthContext } from '../context/AuthContext'
 import ManageUsers from '../components/Admin/ManageUsers'
 import ManageTours from '../components/Admin/ManageTours'
 
@@ -10,46 +11,32 @@ const AdminDashboard = () => {
     totalTours: 0
   })
   const [activeComponent, setActiveComponent] = useState(null)
-
-  useEffect(() => {
-    fetchStats()
-  }, [])
+  const { token } = useContext(AuthContext)
 
   const fetchStats = async () => {
     try {
       const [usersResponse, toursResponse] = await Promise.all([
         fetch(`${BASE_URL}/users`, {
-          credentials: 'include'
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }),
         fetch(`${BASE_URL}/tours`, {
-          credentials: 'include'
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         })
       ])
 
       const usersData = await usersResponse.json()
       const toursData = await toursResponse.json()
 
-      // Handle different response formats for users
-      const userCount = Array.isArray(usersData) 
-        ? usersData.length 
-        : Array.isArray(usersData.data) 
-          ? usersData.data.length 
-          : 0
-
-      // Handle different response formats for tours
-      const tourCount = Array.isArray(toursData) 
-        ? toursData.length 
-        : Array.isArray(toursData.data) 
-          ? toursData.data.length 
-          : 0
-
       setStats({
-        totalUsers: userCount,
-        totalTours: tourCount
+        totalUsers: usersData.data?.length || 0,
+        totalTours: toursData.data?.length || 0
       })
-
-      console.log('Users Data:', usersData) // Debug log
-      console.log('Tours Data:', toursData) // Debug log
     } catch (error) {
       console.error('Error fetching stats:', error)
       setStats({
@@ -58,6 +45,12 @@ const AdminDashboard = () => {
       })
     }
   }
+
+  useEffect(() => {
+    if (token) {
+      fetchStats()
+    }
+  }, [token])
 
   return (
     <section className="pt-0">

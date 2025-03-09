@@ -117,22 +117,33 @@ const TourDetails = () => {
     const handleAddImage = async (e) => {
         e.preventDefault()
         try {
+            if (!token) {
+                throw new Error('Authentication token is missing')
+            }
+
+            if (!newImageUrl.trim()) {
+                throw new Error('Please enter an image URL')
+            }
+
             const res = await fetch(`${BASE_URL}/tours/${id}/gallery`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
-                credentials: 'include',
                 body: JSON.stringify({ imageUrl: newImageUrl })
             })
-            const result = await res.json()
+
+            const data = await res.json()
             if (!res.ok) {
-                throw new Error(result.message || 'Failed to add image')
+                throw new Error(data.message || 'Failed to add image')
             }
-            alert('Image added successfully')
+
             setNewImageUrl('')
+            alert('Image added successfully')
             refetchTour()
         } catch (err) {
+            console.error('Error adding image:', err)
             alert(err.message)
         }
     }
@@ -142,17 +153,23 @@ const TourDetails = () => {
             return
         }
         try {
+            if (!token) {
+                throw new Error('Authentication token is missing')
+            }
+
             const res = await fetch(`${BASE_URL}/tours/${id}/gallery/${imageIndex}`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
             })
+
             const result = await res.json()
             if (!res.ok) {
                 throw new Error(result.message || 'Failed to delete image')
             }
+            
             alert('Image deleted successfully')
             refetchTour()
         } catch (err) {

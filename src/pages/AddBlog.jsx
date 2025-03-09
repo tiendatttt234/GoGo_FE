@@ -30,7 +30,6 @@ const AddBlog = () => {
                 throw new Error('You must be logged in as admin to create a blog')
             }
 
-            // Add missing required fields validation
             const requiredFields = ['title', 'description', 'content', 'photo', 'category']
             for (const field of requiredFields) {
                 if (!blogData[field]) {
@@ -44,18 +43,24 @@ const AddBlog = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(blogData)  // Remove credentials: 'include'
+                body: JSON.stringify({
+                    ...blogData,
+                    featured: blogData.featured || false,
+                    tags: blogData.tags || []
+                })
             })
 
             const result = await res.json()
-            if (!res.ok) {
-                throw new Error(result.message || 'Failed to create blog')
+            
+            if (!result.success) {
+                throw new Error(result.message)
             }
 
             alert('Blog created successfully!')
             navigate('/blogs')
         } catch (err) {
-            alert(err.message)
+            console.error('Error creating blog:', err)
+            alert(err.message || 'Failed to create blog. Please try again.')
         }
     }
 
