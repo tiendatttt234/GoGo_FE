@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 import Home from '../pages/Home'
 import Tours from '../pages/Tours'
 import TourDetails from '../pages/TourDetails'
@@ -11,6 +12,18 @@ import AdminDashboard from '../pages/AdminDashboard'
 import Leaderboard from '../pages/Leaderboard'
 import Blogs from '../pages/Blogs'
 import BlogDetails from '../pages/BlogDetails'
+import AddBlog from './../pages/AddBlog'
+
+const ProtectedRoute = ({ children }) => {
+    const { user } = useContext(AuthContext)
+
+    if (!user || user.role !== 'admin') {
+        return <Navigate to="/login" />
+    }
+
+    return children
+}
+
 const Routers = () => {
    return (
       <Routes>
@@ -25,7 +38,15 @@ const Routers = () => {
          <Route path='/admin' element={<AdminDashboard/>} />
          <Route path='/leaderboard' element={<Leaderboard/>} />
          <Route path='/blogs' element={<Blogs/>} />
-<Route path='/blogs/:id' element={<BlogDetails/>} />
+         <Route path='/blogs/:id' element={<BlogDetails/>} />
+         <Route 
+            path="/blogs/add" 
+            element={
+                <ProtectedRoute>
+                    <AddBlog />
+                </ProtectedRoute>
+            } 
+         />
       </Routes>
    )
 }

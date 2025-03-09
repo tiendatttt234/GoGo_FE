@@ -1,83 +1,65 @@
-import React, { useState, useEffect } from 'react'
-import CommonSection from '../shared/CommonSection'
-import { Container, Row, Col, Button } from 'reactstrap'
-import BlogCard from '../shared/BlogCard'
-import Newsletter from '../shared/Newsletter'
-import { BASE_URL } from '../utils/config'
-import useFetch from '../hooks/useFetch'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useContext } from 'react';
+import { Container, Row, Col, Button } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import useFetch from '../hooks/useFetch';
+import { BASE_URL } from '../utils/config';
+import { AuthContext } from '../context/AuthContext';
+import BlogCard from '../shared/BlogCard';
+import CommonSection from '../shared/CommonSection';
+import Newsletter from '../shared/Newsletter';
 
 const Blogs = () => {
-    const [pageCount, setPageCount] = useState(0)
-    const [page, setPage] = useState(0)
-    const navigate = useNavigate()
-
-    const { 
-        data: blogs, 
-        loading, 
-        error 
-    } = useFetch(`${BASE_URL}/blogs?page=${page}`)
-
-    useEffect(() => {
-        if (blogs?.totalPages) {
-            setPageCount(blogs.totalPages)
-        }
-    }, [blogs])
-
-    const handleCreateBlog = () => {
-        navigate('/add-blog')
-        console.log('Navigating to add blog page')
-    }
-
-    const user = {
-        role: 'admin' // Example user role, replace with actual user role logic
-    }
+    const [page, setPage] = useState(0);
+    const { data: blogs, loading, error } = useFetch(`${BASE_URL}/blogs?page=${page}`);
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     return (
         <>
-            <CommonSection title={"All Blogs"} />
+            <CommonSection title="Our Blogs" />
             <section>
                 <Container>
-                    <Row>
-                        {loading && <h4 className='text-center pt-5'>Loading....</h4>}
-                        {error && <h4 className='text-center pt-5'>{error}</h4>}
-                        {
-                            !loading && !error &&
-                            blogs?.data?.map(blog => (
-                                <Col lg='3' md='6' sm='6' className='mb-4' key={blog._id}>
-                                    <BlogCard blog={blog} />
-                                </Col>
-                            ))
-                        }
-
-                        <Col lg='12'>
-                            <div className="pagination d-flex align-items-center 
-                                justify-content-center mt-4 gap-3">
-                                {[...Array(pageCount || 0).keys()].map(number => (
-                                    <span
-                                        key={number}
-                                        onClick={() => setPage(number)}
-                                        className={page === number ? 'active__page' : ''}
-                                    >
-                                        {number + 1}
-                                    </span>
-                                ))}
-                            </div>
-                        </Col>
-
-                        <Col lg='12' className='text-center mt-4'>
-                            {user?.role === 'admin' && (
-                                <Button onClick={handleCreateBlog} className="btn primary__btn">
+                    {user?.role === 'admin' && (
+                        <Row className="mb-4">
+                            <Col>
+                                <Button 
+                                    color="primary"
+                                    onClick={() => navigate('/blogs/add')}
+                                >
                                     Add New Blog
                                 </Button>
-                            )}
-                        </Col>
+                            </Col>
+                        </Row>
+                    )}
+                    
+                    <Row>
+                        {loading && <h4 className='text-center pt-5'>Loading...</h4>}
+                        {error && <h4 className='text-center pt-5'>{error}</h4>}
+                        
+                        {!loading && !error && blogs?.data?.map(blog => (
+                            <Col lg='4' md='6' sm='6' className='mb-4' key={blog._id}>
+                                <BlogCard blog={blog} />
+                            </Col>
+                        ))}
+                        
+                        {blogs?.total > (page + 1) * 8 && (
+                            <Col lg='12'>
+                                <div className="text-center mt-4">
+                                    <Button 
+                                        color="primary"
+                                        onClick={() => setPage(prev => prev + 1)}
+                                    >
+                                        Load More
+                                    </Button>
+                                </div>
+                            </Col>
+                        )}
                     </Row>
                 </Container>
             </section>
             <Newsletter />
         </>
-    )
-}
+    );
+};
 
-export default Blogs
+export default Blogs;

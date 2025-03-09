@@ -22,11 +22,16 @@ const AddBlog = () => {
     const handleSubmit = async e => {
         e.preventDefault()
         try {
+            const token = localStorage.getItem('token')
+            if (!token) {
+                throw new Error('You must be logged in to create a blog')
+            }
+
             const res = await fetch(`${BASE_URL}/blogs`, {
                 method: 'POST',
                 headers: {
-                    'content-type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(blogData)
             })
