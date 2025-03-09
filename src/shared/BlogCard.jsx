@@ -12,7 +12,7 @@ const BlogCard = ({ blog }) => {
             <CardBody>
                 <div className="blog__info">
                     <span className="blog__author">
-                        <i className="ri-user-line"></i> {author.username}
+                        <i className="ri-user-line"></i> {author?.username}
                     </span>
                     <span className="blog__date">
                         <i className="ri-calendar-line"></i> 
@@ -20,7 +20,9 @@ const BlogCard = ({ blog }) => {
                     </span>
                 </div>
                 <CardTitle tag="h5">{title}</CardTitle>
-                <CardText>{description.substring(0, 100)}...</CardText>
+                <CardText>
+                    {description ? description.substring(0, 100) + '...' : 'No description available'}
+                </CardText>
                 <Link to={`/blogs/${_id}`} className="btn blog__btn">
                     Read More
                 </Link>
