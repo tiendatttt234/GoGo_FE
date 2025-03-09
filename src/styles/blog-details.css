@@ -1,0 +1,44 @@
+.blog__details {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ddd;
+    margin-bottom: 2rem;
+}
+
+.blog__details img {
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.blog__info h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+.blog__info span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.blog__info span i {
+    color: var(--secondary-color);
+    font-size: 1rem;
+}
+
+.blog__description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.blog__content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    white-space: pre-wrap;
+}
