@@ -19,7 +19,8 @@ const ManageTours = () => {
     maxGroupSize: 0,
     description: '',
     photo: '',
-    gallery: []
+    gallery: [],
+    featured: false
   })
 
   useEffect(() => {
@@ -114,7 +115,8 @@ const ManageTours = () => {
             maxGroupSize: 0,
             description: '',
             photo: '',
-            gallery: []
+            gallery: [],
+            featured: false
         })
     } catch (error) {
         console.error('Error creating tour:', error)
@@ -166,7 +168,8 @@ const ManageTours = () => {
       maxGroupSize: 0,
       description: '',
       photo: '',
-      gallery: []
+      gallery: [],
+      featured: false
     })
   }
 
@@ -288,6 +291,22 @@ const ManageTours = () => {
               required
             />
           </FormGroup>
+
+          <FormGroup check className="mb-3">
+            <Label check>
+              <Input
+                type="checkbox"
+                id="featured"
+                checked={currentTour.featured || false}
+                onChange={(e) => editingTour
+                  ? setEditingTour({ ...editingTour, featured: e.target.checked })
+                  : setNewTour({ ...newTour, featured: e.target.checked })
+                }
+              />{' '}
+              Featured Tour
+            </Label>
+          </FormGroup>
+
           <FormGroup>
             <Label for="imageUrl">Gallery Image URL</Label>
             <Input
