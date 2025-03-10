@@ -2,17 +2,18 @@ import React from 'react'
 import '../styles/home.css'
 
 import {Container, Row, Col} from 'reactstrap';
-import heroImg from '../../src/assets/images/hero-img01.jpg';
-import heroImg02 from '../../src/assets/images/hero-img02.jpg';
-import heroVideo from '../../src/assets/images/hero-video.mp4';
-import worldImg from '../../src/assets/images/world.png';
-import experienceImg from '../../src/assets/images/experience.png';
+import heroImg from '../assets/images/hero-img01.jpg';
+import heroImg02 from '../assets/images/hero-img02.jpg';
+import heroVideo from '../assets/images/hero-video.mp4';
+import worldImg from '../assets/images/world.png';
+import experienceImg from '../assets/images/experience.png';
 
-import Subtitle from '../../src/shared/Subtitle';
+import Subtitle from './../shared/Subtitle';
  
-import SearchBar from '../shared/SearchBar';
+import SearchBar from './../shared/SearchBar';
 import ServiceList from '../services/ServiceList';
 import FeaturedTourList from '../components/Featured-tours/FeaturedTourList';
+import FeaturedBlogList from '../components/Featured-blogs/FeaturedBlogList';
 import MasonryImagesGallery from '../components/Image-gallery/MasonryImagesGallery';
 import Testimonials from '../components/Testimonial/Testimonials';
 import Newsletter from '../shared/Newsletter';
@@ -86,6 +87,19 @@ const Home = () => {
       </Container>
     </section>
     {/*WWWWWWWWWWWW FEATURED TOUR SECTION END WWWWWWWWWWWWWWWWW */}
+
+    {/* Featured Blogs Section */}
+    <section>
+      <Container>
+        <Row>
+          <Col lg='12' className='mb-5'>
+            <Subtitle subtitle={"Blogs"}/>
+            <h2 className='featured__tour-title'>Blog nổi bật</h2>
+          </Col>
+          <FeaturedBlogList />
+        </Row>
+      </Container>
+    </section>
 
     {/*WWWWWWWWWWWW EXPERIENCE SECTION START WWWWWWWWWWWWWWWWW */}
     <section>

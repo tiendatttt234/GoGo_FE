@@ -13,7 +13,7 @@ import Leaderboard from '../pages/Leaderboard'
 import Blogs from '../pages/Blogs'
 import BlogDetails from '../pages/BlogDetails'
 import AddBlog from './../pages/AddBlog'
-
+import EditBlog from '../pages/EditBlog' // Fix the import path
 const ProtectedRoute = ({ children }) => {
     const { user } = useContext(AuthContext)
 
@@ -44,9 +44,18 @@ const Routers = () => {
             element={
                 <ProtectedRoute>
                     <AddBlog />
+                    
                 </ProtectedRoute>
             } 
          />
+         <Route 
+    path="/blogs/edit/:id" 
+    element={
+        <ProtectedRoute>
+            <EditBlog />
+        </ProtectedRoute>
+    } 
+/>
       </Routes>
    )
 }

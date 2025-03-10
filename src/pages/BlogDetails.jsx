@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { Container, Row, Col } from 'reactstrap'
-import { useParams } from 'react-router-dom'
+import { Container, Row, Col, Button } from 'reactstrap'
+import { useParams, useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../utils/config'
 import Newsletter from '../shared/Newsletter'
 import { AuthContext } from '../context/AuthContext'
@@ -8,10 +8,11 @@ import '../styles/blog-details.css'
 
 const BlogDetails = () => {
     const { id } = useParams()
-    const { token } = useContext(AuthContext)
+    const { token, user } = useContext(AuthContext)
     const [blog, setBlog] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -49,6 +50,16 @@ const BlogDetails = () => {
                                     <img src={blog.photo} alt={blog.title} className="w-100 mb-4" />
                                     <div className="blog__info">
                                         <h2>{blog.title}</h2>
+                                        {user?.role === 'admin' && (
+                                            <div className="blog__actions mb-4">
+                                                <Button
+                                                    color="primary"
+                                                    onClick={() => navigate(`/blogs/edit/${id}`)}
+                                                >
+                                                    Edit Blog
+                                                </Button>
+                                            </div>
+                                        )}
                                         <div className='d-flex align-items-center gap-5 mb-4'>
                                             <span className='blog__author'>
                                                 <i className="ri-user-line"></i> {blog.author?.username || 'Unknown'}
@@ -69,7 +80,7 @@ const BlogDetails = () => {
                                         {/* Add links section */}
                                         {blog.links?.length > 0 && (
                                             <div className="blog__links">
-                                                <h5 className="mb-3">Related Links:</h5>
+                                                <h5 className="mb-3">Links:</h5>
                                                 <div className="links__wrapper">
                                                     {blog.links.map((link, index) => (
                                                         <div key={index} className="blog__link-item">
