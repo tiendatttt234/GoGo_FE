@@ -1,18 +1,40 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 import { useParams } from 'react-router-dom'
-import useFetch from '../hooks/useFetch'
 import { BASE_URL } from '../utils/config'
 import Newsletter from '../shared/Newsletter'
+import { AuthContext } from '../context/AuthContext'
 import '../styles/blog-details.css'
 
 const BlogDetails = () => {
     const { id } = useParams()
-    const { data: blog, loading, error } = useFetch(`${BASE_URL}/blogs/${id}`)
+    const { token } = useContext(AuthContext)
+    const [blog, setBlog] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        console.log('Blog data:', blog)
-    }, [blog])
+        const fetchBlog = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/blogs/${id}`);
+                const result = await res.json();
+                
+                if (!result.success) {
+                    throw new Error(result.message);
+                }
+                
+                console.log('Fetched blog data:', result.data); // Log the fetched data
+                setBlog(result.data);
+            } catch (err) {
+                console.error('Error fetching blog:', err);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchBlog();
+    }, [id]);
 
     return (
         <>
@@ -43,6 +65,27 @@ const BlogDetails = () => {
                                         <div className="blog__content">
                                             {blog.content}
                                         </div>
+
+                                        {/* Add links section */}
+                                        {blog.links?.length > 0 && (
+                                            <div className="blog__links">
+                                                <h5 className="mb-3">Related Links:</h5>
+                                                <div className="links__wrapper">
+                                                    {blog.links.map((link, index) => (
+                                                        <div key={index} className="blog__link-item">
+                                                            <i className="ri-link"></i>
+                                                            <a 
+                                                                href={link.url} 
+                                                                target="_blank" 
+                                                                rel="noopener noreferrer"
+                                                            >
+                                                                {link.title}
+                                                            </a>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </Col>

@@ -7,13 +7,16 @@ const AddBlog = () => {
     const navigate = useNavigate()
     const [blogData, setBlogData] = useState({
         title: '',
-        description: '', // Add this
+        description: '',
         content: '',
         photo: '',
-        category: '', // Add this
+        category: '',
         featured: false,
-        tags: [] // Add this (optional)
+        tags: [],
+        links: []
     })
+    const [newLink, setNewLink] = useState({ title: '', url: '' })
+    const [linkError, setLinkError] = useState('')
 
     const handleChange = e => {
         setBlogData(prev => ({
@@ -22,20 +25,56 @@ const AddBlog = () => {
         }))
     }
 
+    const validateUrl = (url) => {
+        return /^(http|https):\/\/[^ "]+$/.test(url);
+    }
+
+    const addLink = () => {
+        setLinkError('')
+        if (!newLink.title || !newLink.url) {
+            setLinkError('Both title and URL are required')
+            return
+        }
+        if (!validateUrl(newLink.url)) {
+            setLinkError('Please enter a valid URL starting with http:// or https://')
+            return
+        }
+
+        setBlogData(prev => ({
+            ...prev,
+            links: [...prev.links, newLink]
+        }))
+        setNewLink({ title: '', url: '' })
+    }
+
+    const removeLink = (index) => {
+        setBlogData(prev => ({
+            ...prev,
+            links: prev.links.filter((_, i) => i !== index)
+        }))
+    }
+
     const handleSubmit = async e => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const token = localStorage.getItem('token')
+            const token = localStorage.getItem('token');
             if (!token) {
-                throw new Error('You must be logged in as admin to create a blog')
+                throw new Error('You must be logged in as admin to create a blog');
             }
 
-            const requiredFields = ['title', 'description', 'content', 'photo', 'category']
-            for (const field of requiredFields) {
-                if (!blogData[field]) {
-                    throw new Error(`${field} is required`)
-                }
-            }
+            // Create the complete blog data object
+            const blogDataToSend = {
+                title: blogData.title,
+                description: blogData.description,
+                content: blogData.content,
+                photo: blogData.photo,
+                category: blogData.category,
+                featured: blogData.featured,
+                tags: blogData.tags,
+                links: blogData.links // Make sure links are included here
+            };
+
+            console.log('Sending blog data:', blogDataToSend); // Debug log
 
             const res = await fetch(`${BASE_URL}/blogs`, {
                 method: 'POST',
@@ -43,24 +82,21 @@ const AddBlog = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    ...blogData,
-                    featured: blogData.featured || false,
-                    tags: blogData.tags || []
-                })
-            })
+                credentials: 'include',
+                body: JSON.stringify(blogDataToSend)
+            });
 
-            const result = await res.json()
+            const result = await res.json();
             
             if (!result.success) {
-                throw new Error(result.message)
+                throw new Error(result.message || 'Failed to create blog');
             }
 
-            alert('Blog created successfully!')
-            navigate('/blogs')
+            alert('Blog created successfully!');
+            navigate('/blogs');
         } catch (err) {
-            console.error('Error creating blog:', err)
-            alert(err.message || 'Failed to create blog. Please try again.')
+            console.error('Error creating blog:', err);
+            alert(err.message || 'Failed to create blog. Please try again.');
         }
     }
 
@@ -117,6 +153,49 @@ const AddBlog = () => {
                                         onChange={handleChange}
                                         required
                                     />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label>Links</Label>
+                                    <div className="d-flex gap-2 mb-2">
+                                        <Input
+                                            type="text"
+                                            placeholder="Link Title"
+                                            value={newLink.title}
+                                            onChange={(e) => setNewLink(prev => ({...prev, title: e.target.value}))}
+                                        />
+                                        <Input
+                                            type="url"
+                                            placeholder="https://example.com"
+                                            value={newLink.url}
+                                            onChange={(e) => setNewLink(prev => ({...prev, url: e.target.value}))}
+                                        />
+                                        <Button color="secondary" onClick={addLink} type="button">
+                                            Add Link
+                                        </Button>
+                                    </div>
+                                    {linkError && <div className="text-danger mb-2">{linkError}</div>}
+                                    
+                                    {blogData.links.length > 0 && (
+                                        <div className="mt-2">
+                                            <Label>Added Links:</Label>
+                                            {blogData.links.map((link, index) => (
+                                                <div key={index} className="d-flex align-items-center gap-2 mb-1">
+                                                    <span>{link.title}: </span>
+                                                    <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                                        {link.url}
+                                                    </a>
+                                                    <Button 
+                                                        color="danger" 
+                                                        size="sm"
+                                                        onClick={() => removeLink(index)}
+                                                        type="button"
+                                                    >
+                                                        Remove
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </FormGroup>
                                 <FormGroup check>
                                     <Label check>

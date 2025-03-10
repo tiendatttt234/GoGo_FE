@@ -42,3 +42,36 @@
     color: var(--text-color);
     white-space: pre-wrap;
 }
+
+.blog__links {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+.links__wrapper {
+    background: #f7f7f7;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.blog__link-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.blog__link-item i {
+    color: var(--secondary-color);
+}
+
+.blog__link-item a {
+    color: var(--heading-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.blog__link-item a:hover {
+    color: var(--secondary-color);
+}

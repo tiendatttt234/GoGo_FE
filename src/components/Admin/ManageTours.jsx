@@ -9,7 +9,7 @@ const ManageTours = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [editingTour, setEditingTour] = useState(null)
-  const { user, token } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const [newTour, setNewTour] = useState({
     title: '',
     city: '',
@@ -19,8 +19,7 @@ const ManageTours = () => {
     maxGroupSize: 0,
     description: '',
     photo: '',
-    gallery: [],
-    featured: false
+    gallery: []
   })
 
   useEffect(() => {
@@ -34,9 +33,9 @@ const ManageTours = () => {
       const response = await fetch(`${BASE_URL}/tours`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
       })
       const data = await response.json()
       if (!response.ok) {
@@ -59,9 +58,9 @@ const ManageTours = () => {
       const response = await fetch(`${BASE_URL}/tours/${tourId}`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
       })
       const data = await response.json()
       if (!response.ok) {
@@ -78,51 +77,44 @@ const ManageTours = () => {
   const handleCreateTour = async (e) => {
     e.preventDefault()
     try {
-        if (!token) {
-            throw new Error('Authentication token is missing')
-        }
-
-        const tourData = {
-            ...newTour,
-            distance: Number(newTour.distance),
-            price: Number(newTour.price),
-            maxGroupSize: Number(newTour.maxGroupSize)
-        }
+      const tourData = {
+        ...newTour,
+        distance: Number(newTour.distance),
+        price: Number(newTour.price),
+        maxGroupSize: Number(newTour.maxGroupSize)
+      }
       
-        const response = await fetch(`${BASE_URL}/tours`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(tourData)
-        })
-
-        const data = await response.json()
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to create tour')
-        }
-
-        setModal(false)
-        alert('Tour created successfully')
-        fetchTours()
-        setNewTour({
-            title: '',
-            city: '',
-            address: '',
-            distance: 0,
-            price: 0,
-            maxGroupSize: 0,
-            description: '',
-            photo: '',
-            gallery: [],
-            featured: false
-        })
+      const response = await fetch(`${BASE_URL}/tours`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(tourData)
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to create tour')
+      }
+      setModal(false)
+      alert('Tour created successfully')
+      fetchTours()
+      setNewTour({
+        title: '',
+        city: '',
+        address: '',
+        distance: 0,
+        price: 0,
+        maxGroupSize: 0,
+        description: '',
+        photo: '',
+        gallery: []
+      })
     } catch (error) {
-        console.error('Error creating tour:', error)
-        alert(error.message)
+      console.error('Error creating tour:', error)
+      alert(error.message)
     }
-}
+  }
 
   const handleUpdateTour = async (e) => {
     e.preventDefault()
@@ -137,9 +129,9 @@ const ManageTours = () => {
       const response = await fetch(`${BASE_URL}/tours/${editingTour._id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(tourData)
       })
       const data = await response.json()
@@ -168,8 +160,7 @@ const ManageTours = () => {
       maxGroupSize: 0,
       description: '',
       photo: '',
-      gallery: [],
-      featured: false
+      gallery: []
     })
   }
 
@@ -291,22 +282,6 @@ const ManageTours = () => {
               required
             />
           </FormGroup>
-
-          <FormGroup check className="mb-3">
-            <Label check>
-              <Input
-                type="checkbox"
-                id="featured"
-                checked={currentTour.featured || false}
-                onChange={(e) => editingTour
-                  ? setEditingTour({ ...editingTour, featured: e.target.checked })
-                  : setNewTour({ ...newTour, featured: e.target.checked })
-                }
-              />{' '}
-              Featured Tour
-            </Label>
-          </FormGroup>
-
           <FormGroup>
             <Label for="imageUrl">Gallery Image URL</Label>
             <Input
