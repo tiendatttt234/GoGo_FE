@@ -36,7 +36,7 @@ const quick__links2 = [
   }
 ]
 
-const footer = () => {
+const Footer = () => {
 
   const year = new Date().getFullYear();
   return (
@@ -53,22 +53,22 @@ const footer = () => {
                 <div className="social__links d-flex align-items-center gap-4">
                   <span>
                     <Link to='#'>
-                      <i class="ri-youtube-line"></i>
+                      <i className="ri-youtube-line"></i>
                     </Link>
                   </span>
                   <span>
                     <Link to='#'>
-                      <i class="ri-github-line"></i>
+                      <i className="ri-tiktok-fill"></i>
                     </Link>
                   </span>
                   <span>
                     <Link to='#'>
-                      <i class="ri-instagram-line"></i>
+                      <i className="ri-instagram-line"></i>
                     </Link>
                   </span>
                   <span>
                     <Link to='https://www.facebook.com/profile.php?id=61573410756569'>
-                      <i class="ri-facebook-circle-line"></i>
+                      <i className="ri-facebook-circle-line"></i>
                     </Link>
                   </span>
               </div>              
@@ -145,4 +145,4 @@ const footer = () => {
   )
 }
 
-export default footer
+export default Footer

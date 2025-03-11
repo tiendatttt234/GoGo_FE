@@ -53,6 +53,11 @@ const EditBlog = () => {
         return /^(http|https):\/\/[^ "]+$/.test(url)
     }
 
+    const validateVideoUrl = (url) => {
+        if (!url) return true; // Allow empty video URL
+        return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|tiktok\.com)\/.+|^https?:\/\/.+\.(mp4|webm)$/.test(url);
+    }
+
     const addLink = () => {
         setLinkError('')
         if (!newLink.title || !newLink.url) {
@@ -130,6 +135,7 @@ const EditBlog = () => {
                                         onChange={handleChange}
                                         required
                                     />
+                                    
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="description">Description</Label>
@@ -140,6 +146,9 @@ const EditBlog = () => {
                                         onChange={handleChange}
                                         required
                                     />
+                                     <small className="text-muted">
+                                     Hỗ trợ markdown và hình ảnh. Ví dụ: ![Mô tả hình ảnh](https://example.com/image.jpg)
+                                    </small>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="content">Content</Label>
@@ -151,6 +160,9 @@ const EditBlog = () => {
                                         onChange={handleChange}
                                         required
                                     />
+                                     <small className="text-muted">
+                                     Hỗ trợ markdown và hình ảnh. Ví dụ: ![Mô tả hình ảnh](https://example.com/image.jpg)
+                                    </small>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="photo">Photo URL</Label>
@@ -167,12 +179,12 @@ const EditBlog = () => {
                                     <Input
                                         type="url"
                                         id="video"
-                                        placeholder="YouTube, Vimeo or direct video URL"
+                                        placeholder="YouTube, Vimeo, TikTok or direct video URL"
                                         value={blogData.video}
                                         onChange={handleChange}
                                     />
                                     <small className="text-muted">
-                                        Supported: YouTube, Vimeo, or direct video links
+                                        Supported: YouTube, Vimeo, TikTok, or direct video links
                                     </small>
                                 </FormGroup>
                                 <FormGroup>

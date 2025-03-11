@@ -1,6 +1,8 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Container, Row, Col, Button } from 'reactstrap'
 import { useParams, useNavigate } from 'react-router-dom'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { BASE_URL } from '../utils/config'
 import Newsletter from '../shared/Newsletter'
 import { AuthContext } from '../context/AuthContext'
@@ -71,6 +73,22 @@ const BlogDetails = () => {
                     ></iframe>
                 </div>
             );
+        } else if (videoUrl.includes('tiktok.com')) {
+            // Extract video ID from TikTok URL
+            const videoId = videoUrl.split('/video/')[1]?.split('?')[0];
+            return (
+                <div className="blog__video mb-4">
+                    <iframe
+                        width="100%"
+                        height="600"
+                        src={`https://www.tiktok.com/embed/${videoId}`}
+                        title="TikTok video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            );
         } else {
             return (
                 <div className="blog__video mb-4">
@@ -98,7 +116,6 @@ const BlogDetails = () => {
                             <Col lg='8' className='m-auto'>
                                 <div className="blog__details">
                                     <img src={blog.photo} alt={blog.title} className="w-100 mb-4" />
-                                    {blog.video && renderVideo(blog.video)}
                                     <div className="blog__info">
                                         <h2>{blog.title}</h2>
                                         {user?.role === 'admin' && (
@@ -123,14 +140,10 @@ const BlogDetails = () => {
                                                 <i className="ri-folder-line"></i> {blog.category}
                                             </span>
                                         </div>
-                                        <p className="blog__description">{blog.description}</p>
-                                        <div className="blog__content">
-                                            {blog.content}
-                                        </div>
 
-                                        {/* Add links section */}
+                                        {/* Links section */}
                                         {blog.links?.length > 0 && (
-                                            <div className="blog__links">
+                                            <div className="blog__links mb-4">
                                                 <h5 className="mb-3">Links:</h5>
                                                 <div className="links__wrapper">
                                                     {blog.links.map((link, index) => (
@@ -148,6 +161,41 @@ const BlogDetails = () => {
                                                 </div>
                                             </div>
                                         )}
+
+                                        {/* Video section - moved here */}
+                                        {blog.video && renderVideo(blog.video)}
+
+                                        {/* Description and content */}
+                                        <div className="blog__content">
+                                            <ReactMarkdown 
+                                                remarkPlugins={[remarkGfm]}
+                                                components={{
+                                                    img: ({node, ...props}) => (
+                                                        <img 
+                                                            style={{maxWidth: '100%', height: 'auto', margin: '1rem 0'}} 
+                                                            {...props} 
+                                                            alt={props.alt || ''} 
+                                                        />
+                                                    )
+                                                }}
+                                            >
+                                                {blog.description}
+                                            </ReactMarkdown>
+                                            <ReactMarkdown 
+                                                remarkPlugins={[remarkGfm]}
+                                                components={{
+                                                    img: ({node, ...props}) => (
+                                                        <img 
+                                                            style={{maxWidth: '100%', height: 'auto', margin: '1rem 0'}} 
+                                                            {...props} 
+                                                            alt={props.alt || ''} 
+                                                        />
+                                                    )
+                                                }}
+                                            >
+                                                {blog.content}
+                                            </ReactMarkdown>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>

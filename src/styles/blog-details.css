@@ -43,6 +43,17 @@
     white-space: pre-wrap;
 }
 
+.blog__content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+.blog__content p {
+    margin-bottom: 1rem;
+}
+
 .blog__links {
     margin-top: 2rem;
     padding-top: 1rem;
