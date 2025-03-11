@@ -73,25 +73,28 @@ const TourDetails = () => {
     const { totalRating, avgRating } = calculateAvgRating(reviews || [])
 
     const submitHandler = async e => {
-        e.preventDefault()
-        const reviewText = reviewMsgRef.current.value
+        e.preventDefault();
+        const reviewText = reviewMsgRef.current.value;
 
         try {
             if (!user || user === undefined || user === null) {
-                alert('Please sign in')
-                return
+                alert('Please sign in');
+                return;
             }
 
             if (!tourRating) {
-                alert('Please select a rating')
-                return
+                alert('Please select a rating');
+                return;
             }
 
+            // Create review object with images
             const reviewObj = {
                 reviewText,
                 rating: tourRating,
-                images: reviewImages
-            }
+                images: reviewImages // Include images array
+            };
+
+            console.log('Submitting review:', reviewObj); // Debug log
 
             const res = await fetch(`${BASE_URL}/reviews/${id}`, {
                 method: 'post',
@@ -101,22 +104,23 @@ const TourDetails = () => {
                 },
                 credentials: 'include',
                 body: JSON.stringify(reviewObj)
-            })
+            });
 
-            const result = await res.json()
+            const result = await res.json();
             if (!res.ok) {
-                return alert(result.message)
+                throw new Error(result.message);
             }
 
-            alert('Review submitted successfully')
-            reviewMsgRef.current.value = ''
-            setTourRating(null)
-            setReviewImages([])
-            refetchReviews()
+            alert('Review submitted successfully');
+            reviewMsgRef.current.value = '';
+            setTourRating(null);
+            setReviewImages([]);
+            setShowImageSection(false);
+            refetchReviews();
         } catch (err) {
-            alert(err.message)
+            alert(err.message);
         }
-    }
+    };
 
     const handleAddImage = async (e) => {
         e.preventDefault()
@@ -305,8 +309,8 @@ const TourDetails = () => {
                                                                     src={url} 
                                                                     alt={`Review image ${index + 1}`} 
                                                                     style={{
-                                                                        width: '100px',
-                                                                        height: '100px',
+                                                                        width: '200px', // Increased from 100px
+                                                                        height: '200px', // Increased from 100px
                                                                         objectFit: 'cover',
                                                                         borderRadius: '8px'
                                                                     }}

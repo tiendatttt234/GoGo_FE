@@ -117,8 +117,8 @@ const ReviewItem = ({ review, refetchReviews }) => {
                                     src={url} 
                                     alt={`Review image ${index + 1}`}
                                     style={{
-                                        width: '100px',
-                                        height: '100px',
+                                        width: '200px', // Increased from 100px
+                                        height: '200px', // Increased from 100px
                                         objectFit: 'cover',
                                         borderRadius: '8px',
                                         marginRight: '8px',
@@ -177,8 +177,8 @@ const ReviewItem = ({ review, refetchReviews }) => {
                                             src={url} 
                                             alt={`Review ${index + 1}`}
                                             style={{
-                                                width: '100px',
-                                                height: '100px',
+                                                width: '200px', // Increased from 100px
+                                                height: '200px', // Increased from 100px
                                                 objectFit: 'cover',
                                                 borderRadius: '8px'
                                             }}

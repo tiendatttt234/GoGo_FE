@@ -126,6 +126,9 @@
 
 .review__images {
     margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .review__image-preview img {
@@ -134,6 +137,23 @@
 
 .review__image-preview img:hover {
     transform: scale(1.05);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .review__images img,
+    .review__image-preview img {
+        width: 150px !important;
+        height: 150px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .review__images img,
+    .review__image-preview img {
+        width: 120px !important;
+        height: 120px !important;
+    }
 }
 
 .review__images .btn-danger {
