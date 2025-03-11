@@ -470,7 +470,12 @@ const ManageTours = () => {
         </Table>
       )}
       
-      {/* Rest of the component (Modal, forms, etc.) stays the same */}
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>
+          {editingTour ? 'Edit Tour' : 'Add New Tour'}
+        </ModalHeader>
+        {renderForm()}
+      </Modal>
     </div>
   )
 }
