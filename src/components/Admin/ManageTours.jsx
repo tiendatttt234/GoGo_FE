@@ -9,6 +9,18 @@ const ManageTours = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [editingTour, setEditingTour] = useState(null)
+  const [newTour, setNewTour] = useState({
+    title: '',
+    city: '',
+    address: '',
+    distance: 0,
+    price: 0,
+    maxGroupSize: 0,
+    description: '',
+    photo: '',
+    featured: false,
+    gallery: []
+  })
   const { user, token } = useContext(AuthContext)
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredTours, setFilteredTours] = useState([])
