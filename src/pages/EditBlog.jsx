@@ -163,6 +163,19 @@ const EditBlog = () => {
                                     />
                                 </FormGroup>
                                 <FormGroup>
+                                    <Label for="video">Video URL (Optional)</Label>
+                                    <Input
+                                        type="url"
+                                        id="video"
+                                        placeholder="YouTube, Vimeo or direct video URL"
+                                        value={blogData.video}
+                                        onChange={handleChange}
+                                    />
+                                    <small className="text-muted">
+                                        Supported: YouTube, Vimeo, or direct video links
+                                    </small>
+                                </FormGroup>
+                                <FormGroup>
                                     <Label for="category">Category</Label>
                                     <Input
                                         type="text"

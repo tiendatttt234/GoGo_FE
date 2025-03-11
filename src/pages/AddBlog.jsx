@@ -10,6 +10,7 @@ const AddBlog = () => {
         description: '',
         content: '',
         photo: '',
+        video: '',
         category: '',
         featured: false,
         tags: [],
@@ -27,6 +28,11 @@ const AddBlog = () => {
 
     const validateUrl = (url) => {
         return /^(http|https):\/\/[^ "]+$/.test(url);
+    }
+
+    const validateVideoUrl = (url) => {
+        if (!url) return true; // Allow empty video URL
+        return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com)\/.+|^https?:\/\/.+\.(mp4|webm)$/.test(url);
     }
 
     const addLink = () => {
@@ -68,6 +74,7 @@ const AddBlog = () => {
                 description: blogData.description,
                 content: blogData.content,
                 photo: blogData.photo,
+                video: blogData.video,
                 category: blogData.category,
                 featured: blogData.featured,
                 tags: blogData.tags,
@@ -144,6 +151,19 @@ const AddBlog = () => {
                                         onChange={handleChange}
                                         required
                                     />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="video">Video URL (Optional)</Label>
+                                    <Input
+                                        type="url"
+                                        id="video"
+                                        placeholder="YouTube, Vimeo or direct video URL"
+                                        value={blogData.video}
+                                        onChange={handleChange}
+                                    />
+                                    <small className="text-muted">
+                                        Supported: YouTube, Vimeo, or direct video links
+                                    </small>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="category">Category</Label>

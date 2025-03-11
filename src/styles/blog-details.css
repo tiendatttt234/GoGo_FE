@@ -75,3 +75,19 @@
 .blog__link-item a:hover {
     color: var(--secondary-color);
 }
+
+.blog__video {
+    position: relative;
+    width: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #000;
+}
+
+.blog__video iframe,
+.blog__video video {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    border-radius: 0.5rem;
+}

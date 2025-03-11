@@ -37,6 +37,56 @@ const BlogDetails = () => {
         fetchBlog();
     }, [id]);
 
+    const renderVideo = (videoUrl) => {
+        if (!videoUrl) return null;
+    
+        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+            const videoId = videoUrl.includes('youtube.com') 
+                ? videoUrl.split('v=')[1]
+                : videoUrl.split('youtu.be/')[1];
+            return (
+                <div className="blog__video mb-4">
+                    <iframe
+                        width="100%"
+                        height="400"
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            );
+        } else if (videoUrl.includes('vimeo.com')) {
+            const videoId = videoUrl.split('vimeo.com/')[1];
+            return (
+                <div className="blog__video mb-4">
+                    <iframe
+                        width="100%"
+                        height="400"
+                        src={`https://player.vimeo.com/video/${videoId}`}
+                        title="Vimeo video player"
+                        frameBorder="0"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            );
+        } else {
+            return (
+                <div className="blog__video mb-4">
+                    <video
+                        controls
+                        width="100%"
+                        height="400"
+                    >
+                        <source src={videoUrl} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            );
+        }
+    }
+
     return (
         <>
             <section>
@@ -48,6 +98,7 @@ const BlogDetails = () => {
                             <Col lg='8' className='m-auto'>
                                 <div className="blog__details">
                                     <img src={blog.photo} alt={blog.title} className="w-100 mb-4" />
+                                    {blog.video && renderVideo(blog.video)}
                                     <div className="blog__info">
                                         <h2>{blog.title}</h2>
                                         {user?.role === 'admin' && (
