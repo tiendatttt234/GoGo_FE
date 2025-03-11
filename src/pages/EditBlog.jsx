@@ -163,6 +163,15 @@ const EditBlog = () => {
                                      <small className="text-muted">
                                      Hỗ trợ markdown và hình ảnh. Ví dụ: ![Mô tả hình ảnh](https://example.com/image.jpg)
                                     </small>
+                                    <small className="text-muted mt-2 d-block">
+        Hỗ trợ định dạng văn bản:
+        - Chữ in đậm: **text**
+        - Tiêu đề lớn: # Text
+        - Vừa lớn vừa đậm: # **Text**
+        - Ví dụ: 
+          # **Du lịch Đà Nẵng**
+          ## **Địa điểm nổi bật**
+    </small>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="photo">Photo URL</Label>
