@@ -67,7 +67,7 @@ const footer = () => {
                     </Link>
                   </span>
                   <span>
-                    <Link to='#'>
+                    <Link to='https://www.facebook.com/profile.php?id=61573410756569'>
                       <i class="ri-facebook-circle-line"></i>
                     </Link>
                   </span>
