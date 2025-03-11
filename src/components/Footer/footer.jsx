@@ -1,9 +1,9 @@
 import React from 'react'
 import './footer.css'
-
 import { Container, Row, Col, ListGroup, ListGroupItem} from 'reactstrap'
-
-import  {Link} from'react-router-dom'
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faYoutube, faTiktok, faInstagram, faFacebookF } from '@fortawesome/free-brands-svg-icons'
 import logo from "../../assets/images/logo.png"
 
 const quick__links = [
@@ -53,23 +53,31 @@ const Footer = () => {
                 <div className="social__links d-flex align-items-center gap-4">
                   <span>
                     <Link to='#'>
-                      <i className="ri-youtube-line"></i>
+                      <FontAwesomeIcon icon={faYoutube} />
                     </Link>
+                  </span>
+                  <span>
+                  <a 
+                      href="https://www.tiktok.com/@gogochat25?is_from_webapp=1&sender_device=pc" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      <FontAwesomeIcon icon={faTiktok} />
+                    </a>
                   </span>
                   <span>
                     <Link to='#'>
-                      <i className="ri-tiktok-fill"></i>
+                      <FontAwesomeIcon icon={faInstagram} />
                     </Link>
                   </span>
                   <span>
-                    <Link to='#'>
-                      <i className="ri-instagram-line"></i>
-                    </Link>
-                  </span>
-                  <span>
-                    <Link to='https://www.facebook.com/profile.php?id=61573410756569'>
-                      <i className="ri-facebook-circle-line"></i>
-                    </Link>
+                    <a 
+                      href="https://www.facebook.com/profile.php?id=61573410756569" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      <FontAwesomeIcon icon={faFacebookF} />
+                    </a>
                   </span>
               </div>              
             </div>

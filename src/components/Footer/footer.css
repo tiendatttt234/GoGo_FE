@@ -16,6 +16,18 @@
     text-decoration: none;
     color: var(--heading-color);
     font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.social__links span a:hover {
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+/* Specific styling for TikTok icon */
+.social__links span a svg {
+    width: 1.2rem;
+    height: 1.2rem;
 }
 
 .footer__link-title{

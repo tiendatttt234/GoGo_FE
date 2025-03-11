@@ -19,6 +19,8 @@ const TourDetails = () => {
     const [newImageUrl, setNewImageUrl] = useState('')
     const [error, setError] = useState(null)
     const { user, token } = useContext(AuthContext)
+    const [reviewImages, setReviewImages] = useState([]);
+    const [showImageSection, setShowImageSection] = useState(false);
 
     const sliderSettings = {
         dots: true,
@@ -87,7 +89,8 @@ const TourDetails = () => {
 
             const reviewObj = {
                 reviewText,
-                rating: tourRating
+                rating: tourRating,
+                images: reviewImages
             }
 
             const res = await fetch(`${BASE_URL}/reviews/${id}`, {
@@ -108,6 +111,7 @@ const TourDetails = () => {
             alert('Review submitted successfully')
             reviewMsgRef.current.value = ''
             setTourRating(null)
+            setReviewImages([])
             refetchReviews()
         } catch (err) {
             alert(err.message)
@@ -178,6 +182,19 @@ const TourDetails = () => {
         }
     }
 
+    const addImageToReview = () => {
+        if (!newImageUrl.trim()) {
+            alert('Please enter an image URL');
+            return;
+        }
+        setReviewImages([...reviewImages, newImageUrl]);
+        setNewImageUrl('');
+    };
+
+    const removeImageFromReview = (index) => {
+        setReviewImages(reviewImages.filter((_, i) => i !== index));
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [tour])
@@ -247,10 +264,67 @@ const TourDetails = () => {
                                                 placeholder='Share your thoughts'
                                                 required
                                             />
-                                            <button className="btn primary__btn text-white" type='submit'>
-                                                Submit
-                                            </button>
+                                            <div className="review__actions d-flex align-items-center">
+                                                <button 
+                                                    type="button" 
+                                                    className="image__button"
+                                                    onClick={() => setShowImageSection(!showImageSection)}
+                                                >
+                                                    <i className="ri-image-add-line"></i>
+                                                </button>
+                                                <button className="btn primary__btn text-white" type='submit'>
+                                                    Submit
+                                                </button>
+                                            </div>
                                         </div>
+
+                                        {/* Image section that toggles */}
+                                        {showImageSection && (
+                                            <div className="review__images mt-3">
+                                                <div className="d-flex gap-2 mb-2">
+                                                    <Input
+                                                        type="url"
+                                                        placeholder="Add image URL"
+                                                        value={newImageUrl}
+                                                        onChange={(e) => setNewImageUrl(e.target.value)}
+                                                    />
+                                                    <Button 
+                                                        color="secondary" 
+                                                        type="button"
+                                                        onClick={addImageToReview}
+                                                    >
+                                                        Add Image
+                                                    </Button>
+                                                </div>
+
+                                                {reviewImages.length > 0 && (
+                                                    <div className="review__image-preview mt-2">
+                                                        {reviewImages.map((url, index) => (
+                                                            <div key={index} className="position-relative d-inline-block me-2 mb-2">
+                                                                <img 
+                                                                    src={url} 
+                                                                    alt={`Review image ${index + 1}`} 
+                                                                    style={{
+                                                                        width: '100px',
+                                                                        height: '100px',
+                                                                        objectFit: 'cover',
+                                                                        borderRadius: '8px'
+                                                                    }}
+                                                                />
+                                                                <Button
+                                                                    color="danger"
+                                                                    size="sm"
+                                                                    className="position-absolute top-0 end-0"
+                                                                    onClick={() => removeImageFromReview(index)}
+                                                                >
+                                                                    ×
+                                                                </Button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </Form>
 
                                     <ListGroup className='user__reviews'>

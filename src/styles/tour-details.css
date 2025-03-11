@@ -75,6 +75,7 @@
     width: 100%;
     padding: 0.5rem 0;
     border: none;
+    margin-right: 1rem;
 }
 
 .review__input input:focus{
@@ -121,4 +122,46 @@
 
 .review__item span{
     font-weight: 500;
+}
+
+.review__images {
+    margin-top: 1rem;
+}
+
+.review__image-preview img {
+    transition: transform 0.3s ease;
+}
+
+.review__image-preview img:hover {
+    transform: scale(1.05);
+}
+
+.review__images .btn-danger {
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.review__images .btn-danger:hover {
+    opacity: 1;
+}
+
+.review__actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.image__button {
+    background: none;
+    border: none;
+    color: var(--heading-color);
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.image__button:hover {
+    color: var(--secondary-color);
 }

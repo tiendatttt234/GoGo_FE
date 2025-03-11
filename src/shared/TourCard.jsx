@@ -11,6 +11,14 @@ const TourCard = ({tour}) => {
 
     const {totalRating, avgRating} = calculateAvgRating(reviews)
 
+    // Format price to VND
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(price);
+    }
+
   return (
     <div className='tour__card'>
       <Card>
@@ -42,7 +50,7 @@ const TourCard = ({tour}) => {
 
             <div className='card__bottom d-flex align-items-center justify-content-between mt-3'>
                 <h5>
-                    ${price} <span> /mỗi người</span>
+                    {formatPrice(price)} <span> /mỗi người</span>
                 </h5>
             </div>
 

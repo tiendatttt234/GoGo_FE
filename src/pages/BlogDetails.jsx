@@ -141,28 +141,7 @@ const BlogDetails = () => {
                                             </span>
                                         </div>
 
-                                        {/* Links section */}
-                                        {blog.links?.length > 0 && (
-                                            <div className="blog__links mb-4">
-                                                <h5 className="mb-3">Links:</h5>
-                                                <div className="links__wrapper">
-                                                    {blog.links.map((link, index) => (
-                                                        <div key={index} className="blog__link-item">
-                                                            <i className="ri-link"></i>
-                                                            <a 
-                                                                href={link.url} 
-                                                                target="_blank" 
-                                                                rel="noopener noreferrer"
-                                                            >
-                                                                {link.title}
-                                                            </a>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* Video section - moved here */}
+                                        {/* Video section */}
                                         {blog.video && renderVideo(blog.video)}
 
                                         {/* Description and content */}
@@ -196,6 +175,27 @@ const BlogDetails = () => {
                                                 {blog.content}
                                             </ReactMarkdown>
                                         </div>
+
+                                        {/* Links section - moved to bottom */}
+                                        {blog.links?.length > 0 && (
+                                            <div className="blog__links">
+                                                <h5 className="mb-3">Links:</h5>
+                                                <div className="links__wrapper">
+                                                    {blog.links.map((link, index) => (
+                                                        <div key={index} className="blog__link-item">
+                                                            <i className="ri-link"></i>
+                                                            <a 
+                                                                href={link.url} 
+                                                                target="_blank" 
+                                                                rel="noopener noreferrer"
+                                                            >
+                                                                {link.title}
+                                                            </a>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </Col>
