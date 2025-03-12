@@ -1,0 +1,76 @@
+.filter__form {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #eee;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter__item {
+    margin-bottom: 1rem;
+}
+
+.filter__item label {
+    font-weight: 500;
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.filter__item input,
+.filter__item select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.3rem;
+    transition: border-color 0.3s;
+}
+
+.filter__item input:focus,
+.filter__item select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .filter__form {
+        padding: 1rem;
+    }
+    
+    .filter__item {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.filter__section {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter__group {
+  margin-bottom: 15px;
+}
+
+.filter__label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--heading-color);
+}
+
+.filter__input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filter__select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}

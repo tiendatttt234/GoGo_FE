@@ -1,25 +1,54 @@
-import React, { useState } from 'react'
-import { Container, Row, Col, Card, Alert } from 'reactstrap'
-import { BASE_URL } from '../utils/config'
-import useFetch from '../hooks/useFetch'
-import '../styles/leaderboard.css'
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Alert, Table } from 'reactstrap';
+import '../styles/leaderboard.css';
+import { BASE_URL } from '../utils/config';
 
 const Leaderboard = () => {
-    const { data: topReviewers, loading, error } = useFetch(`${BASE_URL}/reviews/top-reviewers`)
-    const [selectedReviewer, setSelectedReviewer] = useState(null)
+    const [topReviewers, setTopReviewers] = useState([]);
+    const [allReviewers, setAllReviewers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [selectedReviewer, setSelectedReviewer] = useState(null);
+
+    useEffect(() => {
+        const fetchReviewers = async () => {
+            try {
+                const [topResponse, allResponse] = await Promise.all([
+                    fetch(`${BASE_URL}/reviews/top-reviewers`),
+                    fetch(`${BASE_URL}/reviews/all-reviewers`)
+                ]);
+
+                if (!topResponse.ok || !allResponse.ok) {
+                    throw new Error('Failed to fetch reviewers');
+                }
+
+                const topData = await topResponse.json();
+                const allData = await allResponse.json();
+
+                setTopReviewers(topData.data);
+                setAllReviewers(allData.data);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+
+        fetchReviewers();
+    }, []);
 
     const getMedalColor = (index) => {
         switch(index) {
-            case 0: return '#FFD700'; // Gold
-            case 1: return '#C0C0C0'; // Silver
-            case 2: return '#CD7F32'; // Bronze
-            default: return '#28a745'; // Green for others
+            case 0: return '#FFD700'; // Vàng
+            case 1: return '#C0C0C0'; // Bạc
+            case 2: return '#CD7F32'; // Đồng
+            default: return '#6c757d'; // Xám
         }
     }
 
     const getMedalEmoji = (index) => {
         switch(index) {
-            case 0: return '👑';
+            case 0: return '🥇';
             case 1: return '🥈';
             case 2: return '🥉';
             default: return '🏅';
@@ -27,11 +56,11 @@ const Leaderboard = () => {
     }
 
     const getAchievementTitle = (reviewCount) => {
-        if (reviewCount >= 50) return 'Elite Reviewer';
-        if (reviewCount >= 30) return 'Expert Reviewer';
-        if (reviewCount >= 20) return 'Experienced Reviewer';
-        if (reviewCount >= 10) return 'Active Reviewer';
-        return 'Rising Reviewer';
+        if (reviewCount >= 50) return 'Người Đánh Giá Ưu Tú';
+        if (reviewCount >= 30) return 'Người Đánh Giá Chuyên Nghiệp';
+        if (reviewCount >= 20) return 'Người Đánh Giá Nhiều Kinh Nghiệm';
+        if (reviewCount >= 10) return 'Người Đánh Giá Tích Cực';
+        return 'Người Đánh Giá Mới';
     }
 
     return (
@@ -42,10 +71,10 @@ const Leaderboard = () => {
                         <div className="leaderboard__header">
                             <h1 className="leaderboard__title">
                                 <span className="trophy-emoji">🏆</span> 
-                                Top Reviewers
+                                Bảng Xếp Hạng Người Đánh Giá
                             </h1>
                             <p className="leaderboard__subtitle">
-                                Celebrating our most active community members
+                                Vinh danh những thành viên tích cực nhất của cộng đồng
                             </p>
                         </div>
                     </Col>
@@ -54,22 +83,22 @@ const Leaderboard = () => {
                 {loading && (
                     <div className="text-center loading-animation">
                         <div className="spinner-grow text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
+                            <span className="visually-hidden">Đang tải...</span>
                         </div>
                     </div>
                 )}
 
                 {error && (
                     <Alert color="danger" className="text-center">
-                        <i className="ri-error-warning-line"></i> Error: {error}
+                        <i className="ri-error-warning-line"></i> Lỗi: {error}
                         <br />
-                        <small>Please try refreshing the page or contact support if the problem persists.</small>
+                        <small>Vui lòng tải lại trang hoặc liên hệ hỗ trợ nếu vấn đề vẫn tiếp tục.</small>
                     </Alert>
                 )}
 
                 {!loading && !error && topReviewers && topReviewers.length === 0 && (
                     <Alert color="info" className="text-center">
-                        No reviewers found. Be the first to leave a review!
+                        Chưa có người đánh giá nào. Hãy là người đầu tiên đánh giá!
                     </Alert>
                 )}
 
@@ -100,7 +129,7 @@ const Leaderboard = () => {
                                                     {reviewer.reviewCount}
                                                 </span>
                                                 <span className="stat__label">
-                                                    Reviews
+                                                    Đánh Giá
                                                 </span>
                                             </div>
                                             <div className="stat__item">
@@ -109,13 +138,13 @@ const Leaderboard = () => {
                                                     <i className="ri-star-fill star-icon"></i>
                                                 </span>
                                                 <span className="stat__label">
-                                                    Avg Rating
+                                                    Điểm Trung Bình
                                                 </span>
                                             </div>
                                         </div>
                                         <div className="reviewer__badge" 
                                             style={{backgroundColor: getMedalColor(index)}}>
-                                            {index === 0 ? 'Top Reviewer' : `#${index + 1} Reviewer`}
+                                            {index === 0 ? 'Người Đánh Giá Hàng Đầu' : `Hạng #${index + 1}`}
                                         </div>
                                     </div>
                                 </Card>
@@ -127,27 +156,62 @@ const Leaderboard = () => {
                 <Row className="mt-5">
                     <Col lg="12">
                         <div className="leaderboard__info text-center">
-                            <p>Keep reviewing to climb the leaderboard!</p>
+                            <p>Tiếp tục đánh giá để nâng hạng!</p>
                             <div className="achievement-levels">
                                 <span className="achievement-item">
-                                    50+ Reviews: Elite Reviewer 🌟
+                                    50+ Đánh giá: Người Đánh Giá Ưu Tú 🌟
                                 </span>
                                 <span className="achievement-item">
-                                    30+ Reviews: Expert Reviewer ⭐
+                                    30+ Đánh giá: Người Đánh Giá Chuyên Nghiệp ⭐
                                 </span>
                                 <span className="achievement-item">
-                                    20+ Reviews: Experienced Reviewer 🎯
+                                    20+ Đánh giá: Người Đánh Giá Nhiều Kinh Nghiệm 🎯
                                 </span>
                                 <span className="achievement-item">
-                                    10+ Reviews: Active Reviewer 📝
+                                    10+ Đánh giá: Người Đánh Giá Tích Cực 📝
                                 </span>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+
+                <Row className="mt-5">
+                    <Col lg="12">
+                        <div className="all-reviewers">
+                            <h3 className="text-center mb-4">Tất Cả Người Đánh Giá</h3>
+                            <div className="table-responsive">
+                                <Table hover className="reviewer-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tên Người Dùng</th>
+                                            <th>Số Lượng Đánh Giá</th>
+                                            <th>Điểm Trung Bình</th>
+                                            <th>Cấp Độ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {allReviewers.map((reviewer, index) => (
+                                            <tr key={reviewer._id}>
+                                                <td>{index + 1}</td>
+                                                <td>{reviewer._id}</td>
+                                                <td>{reviewer.reviewCount}</td>
+                                                <td>
+                                                    {reviewer.averageRating.toFixed(1)}
+                                                    <i className="ri-star-fill star-icon ms-1"></i>
+                                                </td>
+                                                <td>{getAchievementTitle(reviewer.reviewCount)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
                             </div>
                         </div>
                     </Col>
                 </Row>
             </Container>
         </section>
-    )
-}
+    );
+};
 
-export default Leaderboard
+export default Leaderboard;
