@@ -1,77 +1,61 @@
-import React, {useRef} from 'react'
-import './search-bar.css'
-import {Col, Form, FormGroup} from "reactstrap"
-
-import {BASE_URL} from './../utils/config.js'
-
-import {useNavigate} from "react-router-dom"
+import React, { useRef } from 'react';
+import { Col, Form, FormGroup } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from './../utils/config';
+import '../styles/search-bar.css';
 
 const SearchBar = () => {
+    const searchRef = useRef('');
+    const navigate = useNavigate();
 
-    const locationRef = useRef('')
-    const distanceRef = useRef(0)
-    const maxGroupSizeRef = useRef(0)
-    const navigate = useNavigate()
+    const searchHandler = async () => {
+        const searchTerm = searchRef.current.value;
 
-    const searchHandler = async() => {
-        const location = locationRef.current.value
-        const distance = distanceRef.current.value
-        const maxGroupSize = maxGroupSizeRef.current.value
-
-        if(location === '' || distance === '' || maxGroupSize === ''){
-            return alert('All fields are required');
+        if (searchTerm.trim() === '') {
+            return alert('Vui lòng nhập tên tour để tìm kiếm');
         }
- 
-        const res= await fetch(`${BASE_URL}/tours/search/getTourBySearch?city=${location}&distance=${distance}&maxGroupSize=${maxGroupSize}`)
 
-        if(!res.ok) alert ('Something went wrong')
+        try {
+            const res = await fetch(`${BASE_URL}/tours/search?title=${searchTerm}`);
+            const result = await res.json();
 
-        const result = await res.json()
+            if (!res.ok) {
+                throw new Error(result.message || 'Something went wrong');
+            }
 
-        navigate(`/tours/search?city=${location}&distance=${distance}&maxGroupSize=${maxGroupSize}`, 
-        {state: result.data})
-        console.log('searchHandler called', location, distance, maxGroupSize);
-        console.log('Server response:', result);
+            navigate(`/tours/search?title=${searchTerm}`, { 
+                state: result.data 
+            });
 
+        } catch (err) {
+            alert('Không tìm thấy tour. ' + err.message);
+        }
     }
 
-  return (
-    <Col lg='12'>
-        <div className='search__bar'>
-            <Form className='d-flex align-items-center gap-4'>
-                <FormGroup className='d-flex gap-3 form__group form__group-fast'>
-                    <span>
-                        <i class="ri-map-pin-line"></i>
-                    </span>
-                    <div>
-                        <h6>Địa điểm</h6>
-                        <input type='text' placeholder='Bạn muốn đi đâu?' ref={locationRef}/>
-                    </div>
-                </FormGroup>
-                <FormGroup className='d-flex gap-3 form__group form__group-fast'>
+    return (
+        <Col lg='12'>
+            <div className='search__bar'>
+                <Form className='d-flex align-items-center gap-4'>
+                    <FormGroup className='d-flex gap-3 form__group form__group-fast'>
                         <span>
-                        <i class="ri-map-pin-time-line"></i>
-                    </span>
-                    <div>
-                        <h6>Khoảng cách</h6>
-                        <input type='number' placeholder='Km' ref={distanceRef}/>
-                    </div>
-                </FormGroup>
-                <FormGroup className='d-flex gap-3 form__group form__group-fast'>
-                    <span>
-                        <i class="ri-group-line"></i>
-                    </span>
-                    <div>
-                        <h6>Số người tối đa</h6>
-                        <input type='number' placeholder='0' ref={maxGroupSizeRef}/>
-                    </div>
-                </FormGroup>
-                <span className='search__icon' type='submit' onClick={searchHandler}>
-                    <i class="ri-search-line"></i>
-                </span>   
-            </Form>
-        </div>
-    </Col>
-)};
+                            <i className="ri-search-line"></i>
+                        </span>
+                        <div>
+                            <h6>Tìm kiếm</h6>
+                            <input 
+                                type='text' 
+                                placeholder='Nhập tên tour...' 
+                                ref={searchRef}
+                            />
+                        </div>
+                    </FormGroup>
+                    <span className='search__icon' type='submit' onClick={searchHandler}>
+                        <i className="ri-search-line"></i>
+                    </span>   
+                </Form>
+            </div>
+        </Col>
+    );
+};
 
-export default SearchBar
+export default SearchBar;

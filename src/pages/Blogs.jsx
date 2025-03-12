@@ -11,7 +11,6 @@ import BlogFilter from '../components/Filters/BlogFilter';
 
 const Blogs = () => {
     const [filters, setFilters] = useState({
-        category: '',
         sortBy: 'newest',
         search: ''
     });
@@ -24,6 +23,9 @@ const Blogs = () => {
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const blogsPerPage = 9;
+
+    const [pageCount, setPageCount] = useState(0);
+    const [page, setPage] = useState(0);
 
     // Get current blogs
     const indexOfLastBlog = currentPage * blogsPerPage;
@@ -38,13 +40,6 @@ const Blogs = () => {
         if (!blogs) return;
         
         let result = [...blogs];
-
-        // Apply category filter
-        if (filters.category) {
-            result = result.filter(blog => 
-                blog.category.toLowerCase() === filters.category.toLowerCase()
-            );
-        }
 
         // Apply search filter
         if (filters.search) {
@@ -67,6 +62,27 @@ const Blogs = () => {
         }
 
         setFilteredBlogs(result);
+    }, [blogs, filters]);
+
+    useEffect(() => {
+        const filteredResults = blogs?.filter(blog =>
+            blog.title.toLowerCase().includes(filters.search.toLowerCase()) ||
+            blog.desc.toLowerCase().includes(filters.search.toLowerCase())
+        );
+
+        if (filteredResults) {
+            // Sort blogs
+            const sortedBlogs = [...filteredResults].sort((a, b) => {
+                if (filters.sortBy === 'newest') {
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                } else {
+                    return new Date(a.createdAt) - new Date(b.createdAt);
+                }
+            });
+
+            setFilteredBlogs(sortedBlogs);
+            setPageCount(Math.ceil(sortedBlogs.length / 8));
+        }
     }, [blogs, filters]);
 
     return (

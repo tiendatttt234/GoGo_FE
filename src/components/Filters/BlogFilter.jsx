@@ -13,25 +13,7 @@ const BlogFilter = ({ filters, setFilters }) => {
   return (
     <div className="filter__section">
       <Row>
-        <Col lg="4" md="6">
-          <FormGroup className="filter__group">
-            <Label className="filter__label">Category</Label>
-            <Input
-              type="select"
-              name="category"
-              value={filters.category}
-              onChange={handleChange}
-              className="filter__select"
-            >
-              <option value="">All Categories</option>
-              <option value="travel">Travel</option>
-              <option value="food">Food</option>
-              <option value="culture">Culture</option>
-              <option value="adventure">Adventure</option>
-            </Input>
-          </FormGroup>
-        </Col>
-        <Col lg="4" md="6">
+        <Col lg="6" md="6">
           <FormGroup className="filter__group">
             <Label className="filter__label">Sort By</Label>
             <Input
@@ -41,12 +23,12 @@ const BlogFilter = ({ filters, setFilters }) => {
               onChange={handleChange}
               className="filter__select"
             >
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
+              <option value="newest">Mới nhất</option>
+              <option value="oldest">Cũ nhất</option>
             </Input>
           </FormGroup>
         </Col>
-        <Col lg="4" md="12">
+        <Col lg="6" md="6">
           <FormGroup className="filter__group">
             <Label className="filter__label">Search</Label>
             <Input
@@ -55,7 +37,7 @@ const BlogFilter = ({ filters, setFilters }) => {
               value={filters.search}
               onChange={handleChange}
               className="filter__input"
-              placeholder="Search blogs..."
+              placeholder="Tìm kiếm blogs..."
             />
           </FormGroup>
         </Col>
