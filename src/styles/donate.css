@@ -14,18 +14,28 @@
 }
 
 .donate__info {
-  padding: 1rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
   background: #f8f9fa;
   border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .donate__info h5 {
   color: var(--heading-color);
+  font-weight: 600;
   margin-bottom: 1rem;
 }
 
 .donate__info p {
   margin-bottom: 0.5rem;
   color: var(--text-color);
+  font-weight: 500;
+}
+
+.bank-info p {
+  color: var(--text-color);
+  font-size: 1.1rem;
   font-weight: 500;
 }
