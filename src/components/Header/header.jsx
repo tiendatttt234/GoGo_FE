@@ -5,24 +5,28 @@ import logo from '../../assets/images/logo.png'
 import './header.css'
 import {AuthContext} from './../../context/AuthContext'
 
-const nav__links=[
+const nav__links = [
   {
-    path:'/home',
-    display:'Home'
+    path: '/home',
+    display: 'Home'
   },
   {
-    path:'/tours',
-    display:'Tours'
+    path: '/tours',
+    display: 'Tours'
   },
   {
-    path:'/blogs',
-    display:'Blogs'
+    path: '/blogs',
+    display: 'Blogs'
   },
   {
-    path:'/leaderboard',
-    display:'Xếp hạng'
+    path: '/leaderboard',
+    display: 'Xếp hạng'
   },
-]
+  {
+    path: '/donate',
+    display: 'Donate'
+  }
+];
 
 const Header = () => {
 

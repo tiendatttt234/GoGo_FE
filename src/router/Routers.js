@@ -14,6 +14,8 @@ import Blogs from '../pages/Blogs'
 import BlogDetails from '../pages/BlogDetails'
 import AddBlog from './../pages/AddBlog'
 import EditBlog from '../pages/EditBlog' // Fix the import path
+import Donate from '../pages/Donate';
+
 const ProtectedRoute = ({ children }) => {
     const { user } = useContext(AuthContext)
 
@@ -56,6 +58,7 @@ const Routers = () => {
         </ProtectedRoute>
     } 
 />
+         <Route path='/donate' element={<Donate/>} />
       </Routes>
    )
 }
