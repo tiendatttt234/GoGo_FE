@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
 import { BASE_URL } from '../utils/config';
 import { AuthContext } from '../context/AuthContext';
 import BlogCard from '../shared/BlogCard';
@@ -10,80 +9,70 @@ import Newsletter from '../shared/Newsletter';
 import BlogFilter from '../components/Filters/BlogFilter';
 
 const Blogs = () => {
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+    const [page, setPage] = useState(1);
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [filters, setFilters] = useState({
         sortBy: 'newest',
         search: ''
     });
 
-    const [filteredBlogs, setFilteredBlogs] = useState([]);
-    const { data: blogs, loading, error } = useFetch(`${BASE_URL}/blogs`);
-    const { user } = useContext(AuthContext);
-    const navigate = useNavigate();
+    const blogsPerPage = 9; // 9 blogs per page
 
-    // Pagination states
-    const [currentPage, setCurrentPage] = useState(1);
-    const blogsPerPage = 9;
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${BASE_URL}/blogs`);
+                const result = await response.json();
 
-    const [pageCount, setPageCount] = useState(0);
-    const [page, setPage] = useState(0);
+                if (!result.success) {
+                    throw new Error(result.message);
+                }
 
-    // Get current blogs
-    const indexOfLastBlog = currentPage * blogsPerPage;
+                let filteredResults = [...result.data];
+
+                // Apply search filter
+                if (filters.search) {
+                    filteredResults = filteredResults.filter(blog =>
+                        blog.title.toLowerCase().includes(filters.search.toLowerCase()) ||
+                        blog.description.toLowerCase().includes(filters.search.toLowerCase())
+                    );
+                }
+
+                // Apply sorting
+                filteredResults.sort((a, b) => {
+                    if (filters.sortBy === 'newest') {
+                        return new Date(b.createdAt) - new Date(a.createdAt);
+                    }
+                    return new Date(a.createdAt) - new Date(b.createdAt);
+                });
+
+                setBlogs(filteredResults);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+
+        fetchBlogs();
+    }, [filters]);
+
+    // Calculate pagination
+    const indexOfLastBlog = page * blogsPerPage;
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-    const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
-    const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+    const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+    const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
     // Change page
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    useEffect(() => {
-        if (!blogs) return;
-        
-        let result = [...blogs];
-
-        // Apply search filter
-        if (filters.search) {
-            result = result.filter(blog =>
-                blog.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-                blog.description.toLowerCase().includes(filters.search.toLowerCase())
-            );
-        }
-
-        // Apply sorting
-        switch (filters.sortBy) {
-            case 'newest':
-                result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                break;
-            case 'oldest':
-                result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-                break;
-            default:
-                break;
-        }
-
-        setFilteredBlogs(result);
-    }, [blogs, filters]);
-
-    useEffect(() => {
-        const filteredResults = blogs?.filter(blog =>
-            blog.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-            blog.desc.toLowerCase().includes(filters.search.toLowerCase())
-        );
-
-        if (filteredResults) {
-            // Sort blogs
-            const sortedBlogs = [...filteredResults].sort((a, b) => {
-                if (filters.sortBy === 'newest') {
-                    return new Date(b.createdAt) - new Date(a.createdAt);
-                } else {
-                    return new Date(a.createdAt) - new Date(b.createdAt);
-                }
-            });
-
-            setFilteredBlogs(sortedBlogs);
-            setPageCount(Math.ceil(sortedBlogs.length / 8));
-        }
-    }, [blogs, filters]);
+    const paginate = (pageNumber) => {
+        setPage(pageNumber);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     return (
         <>
@@ -125,21 +114,23 @@ const Blogs = () => {
                     </Row>
 
                     {/* Pagination */}
-                    <Row>
-                        <Col lg='12'>
-                            <div className="pagination d-flex align-items-center justify-content-center mt-4 gap-3">
-                                {[...Array(totalPages).keys()].map(number => (
-                                    <span
-                                        key={number + 1}
-                                        onClick={() => paginate(number + 1)}
-                                        className={`page__number ${currentPage === number + 1 ? 'active__page' : ''}`}
-                                    >
-                                        {number + 1}
-                                    </span>
-                                ))}
-                            </div>
-                        </Col>
-                    </Row>
+                    {totalPages > 1 && (
+                        <Row>
+                            <Col lg='12'>
+                                <div className="pagination d-flex align-items-center justify-content-center mt-4 gap-3">
+                                    {[...Array(totalPages).keys()].map(number => (
+                                        <span
+                                            key={number + 1}
+                                            onClick={() => paginate(number + 1)}
+                                            className={`page__number ${page === number + 1 ? 'active__page' : ''}`}
+                                        >
+                                            {number + 1}
+                                        </span>
+                                    ))}
+                                </div>
+                            </Col>
+                        </Row>
+                    )}
                 </Container>
             </section>
             <Newsletter />
