@@ -90,9 +90,23 @@
 }
 
 .booking__btn{
-    background: var(--secondary-color) !important;
+    background: var(--secondary-color);
     cursor: pointer;
-    padding: 0.2rem 0.5rem !important;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    border: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.booking__btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
 }
 
 .booking__btn a{
