@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import CommonSection from '../shared/CommonSection';
-import donate from '../assets/images/donate.png';
+import donate from '../assets/images/donate.jpg';
 const Donate = () => {
   return (
     <>
